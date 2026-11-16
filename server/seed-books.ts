@@ -1,0 +1,78 @@
+// Starting catalog from the UML document appendix ("Хавсралт: эхний номын каталог", 58 books).
+// Titles are kept exactly as the team wrote them. Authors/years are filled in where known;
+// Open Library data replaces/extends this as readers search (UC-02).
+export interface SeedBook {
+  title: string;
+  author: string;
+  year: number | null;
+}
+
+export const SEED_BOOKS: SeedBook[] = [
+  { title: 'Nineteen Eighty-Four', author: 'George Orwell', year: 1949 },
+  { title: 'Harry Potter', author: 'J.K. Rowling', year: 1997 },
+  { title: 'Project Hail Mary', author: 'Andy Weir', year: 2021 },
+  { title: 'The Iliad', author: 'Homer', year: null },
+  { title: 'The Odyssey', author: 'Homer', year: null },
+  { title: 'The Lord of the Rings', author: 'J.R.R. Tolkien', year: 1954 },
+  { title: 'Don Quixote', author: 'Miguel de Cervantes', year: 1605 },
+  { title: 'War and Peace', author: 'Leo Tolstoy', year: 1869 },
+  { title: 'The Brothers Karamazov', author: 'Fyodor Dostoevsky', year: 1880 },
+  { title: 'One Hundred Years of Tsegts', author: 'Gabriel García Márquez', year: 1967 },
+  { title: 'Hamlet', author: 'William Shakespeare', year: 1603 },
+  { title: 'Pride and Prejudice', author: 'Jane Austen', year: 1813 },
+  { title: 'Sense and Sensibility', author: 'Jane Austen', year: 1811 },
+  { title: 'Moby Dick', author: 'Herman Melville', year: 1851 },
+  { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', year: 1925 },
+  { title: 'Frankenstein', author: 'Mary Shelley', year: 1818 },
+  { title: 'White Fang', author: 'Jack London', year: 1906 },
+  { title: 'The Holy Bible', author: 'Various', year: null },
+  { title: 'The Godfather', author: 'Mario Puzo', year: 1969 },
+  { title: 'Verity', author: 'Colleen Hoover', year: 2018 },
+  { title: 'Holy Quran', author: 'Various', year: null },
+  { title: 'Little Women', author: 'Louisa May Alcott', year: 1868 },
+  { title: 'Wuthering Heights', author: 'Emily Brontë', year: 1847 },
+  { title: 'Crime and Punishment', author: 'Fyodor Dostoevsky', year: 1866 },
+  { title: 'Anna Karenina', author: 'Leo Tolstoy', year: 1878 },
+  { title: 'The Count of Monte Cristo', author: 'Alexandre Dumas', year: 1844 },
+  { title: 'Les Misérables', author: 'Victor Hugo', year: 1862 },
+  { title: 'Jane Eyre', author: 'Charlotte Brontë', year: 1847 },
+  { title: 'The Picture of Dorian Gray', author: 'Oscar Wilde', year: 1890 },
+  { title: 'Dracula', author: 'Bram Stoker', year: 1897 },
+  { title: 'East of Eden', author: 'John Steinbeck', year: 1952 },
+  { title: 'The Grapes of Wrath', author: 'John Steinbeck', year: 1939 },
+  { title: 'The Three Musketeers', author: 'Alexandre Dumas', year: 1844 },
+  { title: "Man's Search for Meaning", author: 'Viktor E. Frankl', year: 1946 },
+  { title: 'Meditations', author: 'Marcus Aurelius', year: null },
+  { title: 'The Art of War', author: 'Sun Tzu', year: null },
+  { title: 'Siddhartha', author: 'Hermann Hesse', year: 1922 },
+  { title: 'The Stranger', author: 'Albert Camus', year: 1942 },
+  { title: 'The Teju: Becoming', author: 'Unknown', year: null },
+  { title: 'The Metamorphosis', author: 'Franz Kafka', year: 1915 },
+  { title: 'Notes from Underground', author: 'Fyodor Dostoevsky', year: 1864 },
+  { title: 'The Little Prince', author: 'Antoine de Saint-Exupéry', year: 1943 },
+  { title: 'The Prophet', author: 'Kahlil Gibran', year: 1923 },
+  { title: 'Dune', author: 'Frank Herbert', year: 1965 },
+  { title: 'The Hobbit', author: 'J.R.R. Tolkien', year: 1937 },
+  { title: 'The Book Thief', author: 'Markus Zusak', year: 2005 },
+  { title: 'The Shadow of the Wind', author: 'Carlos Ruiz Zafón', year: 2001 },
+  { title: 'Never Let Me Go', author: 'Kazuo Ishiguro', year: 2005 },
+  { title: "The Handmaid's Tale", author: 'Margaret Atwood', year: 1985 },
+  { title: 'The Secret History', author: 'Donna Tartt', year: 1992 },
+  { title: 'The Song of Achilles', author: 'Madeline Miller', year: 2011 },
+  { title: 'And Then There Were None', author: 'Agatha Christie', year: 1939 },
+  { title: 'Murder on the Orient Express', author: 'Agatha Christie', year: 1934 },
+  { title: 'The Shining', author: 'Stephen King', year: 1977 },
+  { title: 'Gone Girl', author: 'Gillian Flynn', year: 2012 },
+  { title: 'Atomic Habits', author: 'James Clear', year: 2018 },
+  { title: 'The Worst Books', author: 'Unknown', year: null },
+  { title: 'The Eye of Argon', author: 'Jim Theis', year: 1970 },
+];
+
+// Shown in the login page "Featured this week" shelf.
+export const FEATURED_TITLES = [
+  'Project Hail Mary',
+  'Dune',
+  'Pride and Prejudice',
+  'The Little Prince',
+  'East of Eden',
+];

@@ -1,0 +1,35 @@
+{
+  "name": "kniga",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KNIGA — a social network for books. Log what you read, rate it, review it.",
+  "type": "module",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "node --watch server/index.ts",
+    "dev:web": "vite",
+    "build": "tsc -p tsconfig.json && vite build",
+    "start": "NODE_ENV=production node server/index.ts",
+    "test": "node --test server/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p server/tsconfig.json"
+  },
+  "dependencies": {
+    "express": "4.21.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.26.2"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "22.7.5",
+    "@types/react": "18.3.11",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.2",
+    "concurrently": "9.0.1",
+    "typescript": "5.8.3",
+    "vite": "5.4.8"
+  }
+}
