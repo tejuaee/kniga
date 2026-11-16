@@ -13,6 +13,7 @@ export type DB = DatabaseSync;
 //   log_entries.liked                        – UC-05 form has a ♥ toggle per entry
 //   user_books                               – "Read" without an entry (UC-05 1a), ♥ (UC-08),
 //                                              Want-to-read (UC-10)
+//   favorite_books                           – profile page Top 4
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS users (
   id                INTEGER PRIMARY KEY,
@@ -88,6 +89,15 @@ CREATE TABLE IF NOT EXISTS user_books (
   want_to_read INTEGER NOT NULL DEFAULT 0,
   updated_at   TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   PRIMARY KEY (user_id, book_id)
+);
+
+-- Profile "Top 4" favourite books (Letterboxd-style). Not in the ERD; the profile design needs it.
+CREATE TABLE IF NOT EXISTS favorite_books (
+  user_id  INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL CHECK (position BETWEEN 1 AND 4),
+  book_id  INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, position),
+  UNIQUE (user_id, book_id)
 );
 `;
 

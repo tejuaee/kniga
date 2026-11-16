@@ -1,0 +1,4 @@
+# The profile-page design export is a reference mockup (plus a bundled React runtime),
+# not app code — keep it out of GitHub's language stats.
+design/** linguist-documentation
+design/profile-mockup/vendor/** linguist-vendored

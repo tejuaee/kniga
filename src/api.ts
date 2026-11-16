@@ -85,3 +85,16 @@ export function localToday() {
   const d = new Date();
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 }
+
+export interface Profile {
+  user: Pick<User, 'id' | 'username' | 'bio' | 'avatarUrl' | 'role' | 'createdAt'>;
+  isMe: boolean;
+  stats: { books: number; thisYear: number; reviews: number; liked: number; wantToRead: number };
+  /** Always four slots; null is an empty slot. */
+  favorites: (Book | null)[];
+  /** Books per half-star step, index 0 = ½ star … index 9 = 5 stars. */
+  ratings: number[];
+  tags: { name: string; count: number }[];
+  recent: Entry[];
+  reviews: Entry[];
+}

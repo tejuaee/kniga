@@ -195,3 +195,52 @@ test('search falls back gracefully when Open Library is down (UC-02 2c)', async 
   assert.deepEqual(r.body.results, []);
   assert.ok(r.body.warning);
 });
+
+test('profile: stats, ratings histogram, tags, Top 4, bio', async () => {
+  const api = client();
+  await api('/auth/register', 'POST', { username: 'profiler', email: 'profiler@example.com', password: 'readmore3' });
+  const find = async (q: string) => (await api(`/books/search?q=${encodeURIComponent(q)}`)).body.results[0];
+  const dune = await find('Dune');
+  const hobbit = await find('The Hobbit');
+  const gatsby = await find('Great Gatsby');
+
+  await api('/logs', 'POST', { bookId: dune.id, readOn: today(), rating: 4.5, review: 'Spice.', tags: ['sci-fi'] });
+  await api('/logs', 'POST', { bookId: dune.id, readOn: today(), rating: 5, isReread: true, tags: ['sci-fi'] });
+  await api('/logs', 'POST', { bookId: hobbit.id, readOn: today(), rating: 4, tags: ['fantasy'] });
+  await api(`/books/${gatsby.id}/status`, 'PUT', { liked: true });
+
+  let p = await api('/users/PROFILER');
+  assert.equal(p.status, 200);
+  assert.equal(p.body.user.username, 'profiler');
+  assert.equal(p.body.user.email, undefined, "profiles don't leak email");
+  assert.equal(p.body.isMe, true);
+  assert.deepEqual(p.body.stats, { books: 3, thisYear: 2, reviews: 1, liked: 1, wantToRead: 0 });
+  // one bar per book, using its latest rating: Dune → 5, Hobbit → 4
+  assert.deepEqual(p.body.ratings, [0, 0, 0, 0, 0, 0, 0, 1, 0, 1]);
+  assert.deepEqual(p.body.tags, [{ name: 'sci-fi', count: 2 }, { name: 'fantasy', count: 1 }]);
+  assert.equal(p.body.recent.length, 3);
+  assert.equal(p.body.reviews.length, 1);
+  assert.deepEqual(p.body.favorites, [null, null, null, null]);
+
+  // Top 4
+  assert.equal((await api('/users/me/favorites', 'PUT', { bookIds: [dune.id] })).status, 400);
+  assert.equal((await api('/users/me/favorites', 'PUT', { bookIds: [dune.id, dune.id, null, null] })).status, 400);
+  assert.equal((await api('/users/me/favorites', 'PUT', { bookIds: [99999, null, null, null] })).status, 404);
+  const fav = await api('/users/me/favorites', 'PUT', { bookIds: [hobbit.id, null, dune.id, null] });
+  assert.equal(fav.status, 200);
+  assert.deepEqual(fav.body.favorites.map((b: { id: number } | null) => b?.id ?? null), [hobbit.id, null, dune.id, null]);
+
+  // bio
+  assert.equal((await api('/users/me', 'PATCH', { bio: 'x'.repeat(301) })).status, 400);
+  assert.equal((await api('/users/me', 'PATCH', { bio: '  Reading everything.  ' })).body.bio, 'Reading everything.');
+
+  // someone else's view
+  const other = client();
+  await other('/auth/register', 'POST', { username: 'visitor', email: 'visitor@example.com', password: 'readmore4' });
+  p = await other('/users/profiler');
+  assert.equal(p.body.isMe, false);
+  assert.equal(p.body.user.bio, 'Reading everything.');
+  assert.equal(p.body.favorites[0].title, 'The Hobbit');
+  assert.equal((await other('/users/nobody-here')).status, 404);
+  assert.equal((await client()('/users/profiler')).status, 401);
+});

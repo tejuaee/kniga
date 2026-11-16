@@ -8,6 +8,7 @@ import { Verify } from './pages/Verify';
 import { Home } from './pages/Home';
 import { Diary } from './pages/Diary';
 import { BookPage } from './pages/BookPage';
+import { MyProfile, Profile } from './pages/Profile';
 
 function AppShell() {
   return (
@@ -32,6 +33,8 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/book/:id" element={<BookPage />} />
+        <Route path="/profile" element={<MyProfile />} />
+        <Route path="/u/:username" element={<Profile />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
