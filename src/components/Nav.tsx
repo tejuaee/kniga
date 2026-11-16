@@ -20,6 +20,7 @@ export function Nav() {
           <nav className="nav__links">
             <NavLink to="/" end>Home</NavLink>
             <NavLink to="/diary">Diary</NavLink>
+            {user && <NavLink to={`/u/${user.username}`}>Profile</NavLink>}
           </nav>
         </div>
         <div className="nav__right">
@@ -33,6 +34,7 @@ export function Nav() {
             {menu && (
               <div className="user-menu__pop" role="menu" onMouseLeave={() => setMenu(false)}>
                 <p className="user-menu__name">{user?.username}</p>
+                <NavLink to={`/u/${user?.username}`} role="menuitem" onClick={() => setMenu(false)}>Profile</NavLink>
                 <NavLink to="/diary" role="menuitem" onClick={() => setMenu(false)}>Diary</NavLink>
                 <button
                   role="menuitem"

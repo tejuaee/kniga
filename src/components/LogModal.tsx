@@ -3,7 +3,8 @@ import { api, ApiError, localToday, type Book, type BookPage, type Entry, type L
 import { Cover } from './Cover';
 import { StarInput } from './Stars';
 import { TagInput } from './TagInput';
-import { HeartIcon, SearchIcon, XIcon } from './Icons';
+import { HeartIcon, SearchIcon } from './Icons';
+import { Modal } from './Modal';
 
 interface Props {
   initialBook?: Book;
@@ -19,34 +20,33 @@ interface Props {
 export function LogModal({ initialBook, entry, onClose, onSaved }: Props) {
   const [book, setBook] = useState<Book | undefined>(initialBook);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
-
   return (
-    <div className="modal-backdrop" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="log-title">
-        <button className="modal__close icon-btn" onClick={onClose} aria-label="Close">
-          <XIcon />
-        </button>
-        {book ? (
-          <LogForm book={book} entry={entry} onBack={entry || initialBook ? undefined : () => setBook(undefined)} onSaved={onSaved} />
-        ) : (
-          <BookSearch onPick={setBook} />
-        )}
-      </div>
-    </div>
+    <Modal onClose={onClose} labelledBy="log-title">
+      {book ? (
+        <LogForm book={book} entry={entry} onBack={entry || initialBook ? undefined : () => setBook(undefined)} onSaved={onSaved} />
+      ) : (
+        <BookSearch onPick={setBook} />
+      )}
+    </Modal>
   );
 }
 
 // ---------- step 1: search (UC-02)
-function BookSearch({ onPick }: { onPick: (b: Book) => void }) {
+export function BookSearch({
+  onPick,
+  eyebrow = 'Add to your books',
+  title = 'What did you read?',
+  suggestions = [],
+  badge,
+}: {
+  onPick: (b: Book) => void;
+  eyebrow?: string;
+  title?: string;
+  /** Shown before the reader types anything. */
+  suggestions?: Book[];
+  /** Optional note next to a result, e.g. "In Top 4 · #2". */
+  badge?: (b: Book) => string | null;
+}) {
   const [q, setQ] = useState('');
   const [results, setResults] = useState<Book[]>([]);
   const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle');
@@ -84,15 +84,16 @@ function BookSearch({ onPick }: { onPick: (b: Book) => void }) {
 
   return (
     <div className="log-search">
-      <p className="eyebrow">Add to your books</p>
-      <h2 id="log-title" className="serif-title">What did you read?</h2>
+      <p className="eyebrow">{eyebrow}</p>
+      <h2 id="log-title" className="serif-title">{title}</h2>
       <label className="search-field">
         <SearchIcon />
         <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by title, author or ISBN" aria-label="Search books" />
       </label>
       {note && <p className="hint">{note}</p>}
+      {q.trim().length < 2 && suggestions.length > 0 && <p className="mini-label">From your diary</p>}
       <ul className="search-results">
-        {results.map((b) => (
+        {(q.trim().length < 2 ? suggestions : results).map((b) => (
           <li key={b.id}>
             <button type="button" className="search-result" onClick={() => onPick(b)}>
               <Cover book={b} size="xs" />
@@ -100,6 +101,7 @@ function BookSearch({ onPick }: { onPick: (b: Book) => void }) {
                 <strong>{b.title}</strong>
                 {b.year && <span className="muted"> {b.year}</span>}
                 <span className="muted block">{b.author}</span>
+                {badge?.(b) && <span className="search-result__badge">{badge(b)}</span>}
               </span>
             </button>
           </li>

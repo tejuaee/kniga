@@ -6,6 +6,7 @@ import { HttpError, errorHandler } from './http.ts';
 import { authRouter, loadUser } from './auth.ts';
 import { booksRouter } from './books.ts';
 import { logsRouter } from './logs.ts';
+import { usersRouter } from './users.ts';
 
 /**
  * CSRF guard: session cookies are SameSite=Lax, and every state-changing API call must be JSON.
@@ -31,6 +32,7 @@ export function createApp(db: DB, opts: Parameters<typeof booksRouter>[1] = {}) 
   api.use('/auth', authRouter(db));
   api.use('/books', booksRouter(db, opts));
   api.use('/logs', logsRouter(db));
+  api.use('/users', usersRouter(db));
   api.use((_req, _res, next) => next(new HttpError(404, 'Not found.')));
   app.use('/api', api);
 

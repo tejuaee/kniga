@@ -74,10 +74,11 @@ function hydrate(db: DB, rows: EntryRow[]): Entry[] {
 export function listEntries(
   db: DB,
   userId: number,
-  opts: { bookId?: number; year?: number; limit?: number } = {},
+  opts: { bookId?: number; year?: number; limit?: number; withReview?: boolean } = {},
 ): Entry[] {
   const where = ['e.user_id = ?'];
   const params: (number | string)[] = [userId];
+  if (opts.withReview) where.push(`e.review_text <> ''`);
   if (opts.bookId) {
     where.push('e.book_id = ?');
     params.push(opts.bookId);

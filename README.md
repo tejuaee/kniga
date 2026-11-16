@@ -20,8 +20,9 @@ The spec is the *KNIGA — UML загварчлал* + *KNIGA — ERD* documents
 | UC-10 Want to read | ✅ Toggle on the book page |
 | Diary | ✅ Letterboxd-style diary grouped by month, edit/delete entries, filter by year |
 | Recent Logs | ✅ Home page shows your 10 latest entries, 4 at a time, horizontally scrollable |
+| Profile | ✅ `/u/:username` (Letterboxd-style): stats, editable bio, Top 4 favourite books (drag / arrows / pick from search), recent activity, recent reviews with spoiler guard, ratings spread, tags |
 
-Not built yet: profile pages, Top 4, lists, review likes/comments, following, critic verification, Patron covers,
+Not built yet: lists, review likes/comments, following, critic verification, Patron covers,
 password reset and Google sign-in.
 
 ## Run it
@@ -61,6 +62,7 @@ Tables follow the ERD (`users`, `books`, `log_entries`, `tags`, `entry_tags`), p
 - `sessions`, `email_verifications`: sign-up and login (UC-01)
 - `user_books`: Read without an entry, ♥ and Want to read (UC-05 1a, UC-08, UC-10). The ERD had no table for these.
 - `log_entries.liked`: the ♥ toggle on each log
+- `favorite_books`: the profile's Top 4 (one row per filled slot)
 - `books.description`, `books.page_count`: shown on the book page (UC-03)
 
 **Rating rule:** each log entry can carry a rating. A reader's *active* rating for a book is the one on their most
@@ -71,7 +73,7 @@ The 58-book starting catalog from the UML appendix is seeded on first run (`serv
 ## Repo layout
 
 ```
-server/        API (auth.ts, books.ts, logs.ts, db.ts) + tests
+server/        API (auth.ts, books.ts, logs.ts, users.ts, db.ts) + tests
 src/           React app (pages/, components/)
-design/        the original profile-page design export
+design/        the original profile-page design export (reference only; excluded from GitHub language stats)
 ```
