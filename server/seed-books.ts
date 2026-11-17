@@ -1,4 +1,4 @@
-// Starting catalog from the UML document appendix ("Хавсралт: эхний номын каталог", 58 books).
+// Starting catalog from the UML document appendix ("Хавсралт: эхний номын каталог"; two joke titles left out).
 // Titles are kept exactly as the team wrote them. Authors/years are filled in where known;
 // Open Library data replaces/extends this as readers search (UC-02).
 export interface SeedBook {
@@ -17,7 +17,6 @@ export const SEED_BOOKS: SeedBook[] = [
   { title: 'Don Quixote', author: 'Miguel de Cervantes', year: 1605 },
   { title: 'War and Peace', author: 'Leo Tolstoy', year: 1869 },
   { title: 'The Brothers Karamazov', author: 'Fyodor Dostoevsky', year: 1880 },
-  { title: 'One Hundred Years of Tsegts', author: 'Gabriel García Márquez', year: 1967 },
   { title: 'Hamlet', author: 'William Shakespeare', year: 1603 },
   { title: 'Pride and Prejudice', author: 'Jane Austen', year: 1813 },
   { title: 'Sense and Sensibility', author: 'Jane Austen', year: 1811 },
@@ -46,7 +45,6 @@ export const SEED_BOOKS: SeedBook[] = [
   { title: 'The Art of War', author: 'Sun Tzu', year: null },
   { title: 'Siddhartha', author: 'Hermann Hesse', year: 1922 },
   { title: 'The Stranger', author: 'Albert Camus', year: 1942 },
-  { title: 'The Teju: Becoming', author: 'Unknown', year: null },
   { title: 'The Metamorphosis', author: 'Franz Kafka', year: 1915 },
   { title: 'Notes from Underground', author: 'Fyodor Dostoevsky', year: 1864 },
   { title: 'The Little Prince', author: 'Antoine de Saint-Exupéry', year: 1943 },
