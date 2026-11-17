@@ -38,6 +38,7 @@ Open the web app URL Vite prints and create an account. In development, emails (
 are printed in the terminal running the API instead of being sent.
 
 ```bash
+npm run covers     # fetch covers for catalog books that don't have one (Open Library, no API key)
 npm test           # API tests (auth + log entries)
 npm run typecheck
 npm run build && npm start   # production: one server on :3001 serves the API and the built app
