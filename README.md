@@ -1,6 +1,18 @@
 # KNIGA
 
 ```
+                  ___
+                 |   |
+                 |   |
+                 |   |
+              ___|   |___
+             |   |   |   |_
+             |   |   |   | |
+             |   |   |   | |
+             |             |
+              \           /
+               \         /
+                |_______|
    .--------------------..--------------------.
    |                    ||  ~~~~~~~~~~~~~~~~  |
    |   K  N  I  G  A    ||  ~~~~~~~~~~~~~~    |
@@ -14,7 +26,7 @@
 ```
 
 **A social network for books.** Log what you read, rate it from half a star to five, review it, and keep a reading diary.
-Book data comes from [Open Library](https://openlibrary.org).
+Inspired by [Letterboxd](https://letterboxd.com). Book data comes from [Open Library](https://openlibrary.org).
 
 ![Node](https://img.shields.io/badge/node-23.6%2B-3c873a)
 ![React](https://img.shields.io/badge/react-18-61dafb)
