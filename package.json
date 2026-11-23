@@ -5,17 +5,16 @@
   "description": "KNIGA — a social network for books. Log what you read, rate it, review it.",
   "type": "module",
   "engines": {
-    "node": ">=23.6"
+    "node": ">=22.13"
   },
   "scripts": {
     "dev": "concurrently -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\"",
-    "dev:api": "node --watch server/index.ts",
+    "dev:api": "node --env-file-if-exists=.env --watch server/index.js",
     "dev:web": "vite",
-    "build": "tsc -p tsconfig.json && vite build",
-    "start": "NODE_ENV=production node server/index.ts",
-    "test": "node --test server/*.test.ts",
-    "typecheck": "tsc -p tsconfig.json && tsc -p server/tsconfig.json",
-    "covers": "node server/fetch-covers.ts"
+    "build": "vite build",
+    "start": "node --env-file-if-exists=.env server/index.js --production",
+    "test": "node --test \"server/**/*.test.js\"",
+    "covers": "node --env-file-if-exists=.env server/fetch-covers.js"
   },
   "dependencies": {
     "express": "4.21.1",
@@ -24,13 +23,8 @@
     "react-router-dom": "6.26.2"
   },
   "devDependencies": {
-    "@types/express": "4.17.21",
-    "@types/node": "22.7.5",
-    "@types/react": "18.3.11",
-    "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.2",
     "concurrently": "9.0.1",
-    "typescript": "5.8.3",
     "vite": "5.4.8"
   }
 }
