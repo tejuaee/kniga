@@ -98,3 +98,12 @@ export interface Profile {
   recent: Entry[];
   reviews: Entry[];
 }
+
+export interface MemberResult {
+  username: string;
+  bio: string;
+  avatarUrl: string | null;
+  role: string;
+  /** Books marked as read. */
+  books: number;
+}

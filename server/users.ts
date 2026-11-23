@@ -109,6 +109,26 @@ export function usersRouter(db: DB) {
     res.json({ favorites: favorites(db, user.id) });
   });
 
+  // Member search: username match, prefix hits first
+  r.get('/', (req, res) => {
+    const q = String(req.query.q ?? '').trim().slice(0, 50);
+    if (q.length < 2) return void res.json({ results: [] });
+    const esc = q.replace(/[\\%_]/g, (c) => '\\' + c);
+    const rows = db
+      .prepare(
+        `SELECT u.username, u.bio, u.avatar_url, u.role,
+           (SELECT COUNT(*) FROM user_books ub WHERE ub.user_id = u.id AND ub.is_read = 1) AS books
+         FROM users u
+         WHERE u.username LIKE ? ESCAPE '\\'
+         ORDER BY (u.username LIKE ? ESCAPE '\\') DESC, length(u.username), u.username
+         LIMIT 20`,
+      )
+      .all(`%${esc}%`, `${esc}%`) as { username: string; bio: string; avatar_url: string | null; role: string; books: number }[];
+    res.json({
+      results: rows.map((u) => ({ username: u.username, bio: u.bio, avatarUrl: u.avatar_url, role: u.role, books: u.books })),
+    });
+  });
+
   // Profile page data
   r.get('/:username', (req, res) => {
     const row = db
