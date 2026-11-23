@@ -1,7 +1,7 @@
 # KNIGA
 
 <p align="center">
-  <img src="docs/kniga-book.svg" alt="KNIGA: an animated ASCII book. read. rate. remember." width="458">
+  <img src="docs/kniga-book-3d.svg" alt="KNIGA: an ASCII-art leather book with a gold title, spinning in 3D" width="396">
 </p>
 
 **A social network for books.** Log what you read, rate it from half a star to five, review it, and keep a reading diary.
@@ -139,7 +139,8 @@ Tables follow the ERD: `users`, `books`, `log_entries`, `tags`, `entry_tags`. Ex
 kniga/
   server/    API: auth.ts, books.ts, logs.ts, users.ts, db.ts, seed-books.ts, plus tests
   src/       React app: pages/, components/, styles.css
-  scripts/   kniga_book.py: the animated ASCII book (plays in the terminal, or rebuilds docs/kniga-book.svg with --svg)
+  scripts/   generate_book.py: the spinning 3D ASCII book at the top of this README (rebuilds docs/kniga-book-3d.svg, or --play in the terminal)
+             kniga_book.py: the flat page-turning book (docs/kniga-book.svg)
   design/    original profile-page design export (reference only, excluded from GitHub language stats)
   data/      SQLite database, created on first run
 ```
