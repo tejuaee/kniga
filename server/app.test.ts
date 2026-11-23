@@ -244,3 +244,22 @@ test('profile: stats, ratings histogram, tags, Top 4, bio', async () => {
   assert.equal((await other('/users/nobody-here')).status, 404);
   assert.equal((await client()('/users/profiler')).status, 401);
 });
+
+test('member search: login required, prefix matches first, LIKE wildcards are literal', async () => {
+  assert.equal((await client()('/users?q=ab')).status, 401);
+  const api = client();
+  for (const username of ['zed_reader', 'reader_zed', 'zedd']) {
+    await client()('/auth/register', 'POST', { username, email: `${username}@example.com`, password: 'books4ever' });
+  }
+  await api('/auth/register', 'POST', { username: 'searcher', email: 'searcher@example.com', password: 'books4ever' });
+
+  const r = await api('/users?q=zed');
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.body.results.map((u: any) => u.username), ['zedd', 'zed_reader', 'reader_zed']);
+  assert.equal(r.body.results[0].books, 0);
+  assert.equal(r.body.results[0].email, undefined, 'never leaks email');
+
+  assert.deepEqual((await api('/users?q=z')).body.results, [], 'one character is too short');
+  assert.deepEqual((await api('/users?q=%25%25')).body.results, [], '% is not a wildcard');
+  assert.deepEqual((await api('/users?q=_r')).body.results.map((u: any) => u.username), ['zed_reader']);
+});

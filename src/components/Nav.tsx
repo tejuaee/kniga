@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { useLog } from '../log-context';
 import { api } from '../api';
 import { Logo } from './Logo';
-import { PlusIcon } from './Icons';
+import { PlusIcon, SearchIcon } from './Icons';
 
 export function Nav() {
   const { user, logout } = useAuth();
@@ -24,6 +24,7 @@ export function Nav() {
           </nav>
         </div>
         <div className="nav__right">
+          <NavSearch />
           <button className="btn btn--primary btn--sm" onClick={() => openLog()}>
             <PlusIcon /> Log
           </button>
@@ -52,6 +53,29 @@ export function Nav() {
       </header>
       {user && !user.emailVerified && <VerifyBanner email={user.email} />}
     </>
+  );
+}
+
+/** Compact search box; Enter opens the full results page. Hidden on the search page itself. */
+function NavSearch() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [q, setQ] = useState('');
+  if (location.pathname === '/search') return null;
+  return (
+    <form
+      className="nav-search"
+      role="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const query = q.trim();
+        navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+        setQ('');
+      }}
+    >
+      <SearchIcon />
+      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" aria-label="Search books and members" />
+    </form>
   );
 }
 

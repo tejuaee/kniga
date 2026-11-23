@@ -9,6 +9,7 @@ import { Home } from './pages/Home';
 import { Diary } from './pages/Diary';
 import { BookPage } from './pages/BookPage';
 import { MyProfile, Profile } from './pages/Profile';
+import { Search } from './pages/Search';
 
 function AppShell() {
   return (
@@ -33,6 +34,7 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/book/:id" element={<BookPage />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/u/:username" element={<Profile />} />
       </Route>
