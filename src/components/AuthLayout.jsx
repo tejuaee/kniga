@@ -4,6 +4,7 @@ import { api } from '../api';
 import { Logo } from './Logo';
 import { Cover } from './Cover';
 import { ChevronIcon } from './Icons';
+import { AsciiBook } from './AsciiBook';
 
 // Matches the Figma "Login — Desktop 16:9" frame: form card on the left,
 // "Featured this week" shelf + "Browse the stacks" on the right (Open Library inspired).
@@ -16,9 +17,10 @@ const SUBJECTS = [
   { name: 'Romance', ab: 'Ro', tone: 'beige' },
 ];
 
-export function AuthLayout({ children }) {
+export function AuthLayout({ children, backdrop = false }) {
   return (
-    <div className="auth">
+    <div className={`auth${backdrop ? ' auth--backdrop' : ''}`}>
+      {backdrop && <AsciiBook />}
       <header className="auth__top">
         <Logo />
         <nav className="auth__links">
