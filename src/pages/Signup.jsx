@@ -26,7 +26,7 @@ export function Signup() {
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout backdrop>
       <form onSubmit={submit} noValidate className="auth-form">
         <div className="auth-form__intro">
           <p className="eyebrow">Join Kniga</p>
