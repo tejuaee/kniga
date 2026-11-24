@@ -6,3 +6,4 @@
 ## 2026-11-25
 - Planning next UI pass.
 - Dev log note 1.
+- Dev log note 2.
