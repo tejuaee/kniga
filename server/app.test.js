@@ -446,3 +446,15 @@ test('dislikes: like OR dislike, switching swaps them, no notification for disli
   assert.deepEqual(pick(r.body), [0, 0, false, false]);
   assert.deepEqual(pick((await hal(`/entries/${entry.id}`)).body.entry.social), [0, 0, false, false]);
 });
+
+test('dev guest login signs into a reusable dummy account', async () => {
+  const api = client();
+  const r = await api('/auth/dev-guest', 'POST');
+  assert.equal(r.status, 200);
+  assert.equal(r.body.user.username, 'dev_guest');
+  assert.equal(r.body.user.emailVerified, true);
+  assert.equal((await api('/auth/me')).body.user.username, 'dev_guest');
+
+  const again = await client()('/auth/dev-guest', 'POST');
+  assert.equal(again.body.user.id, r.body.user.id);
+});

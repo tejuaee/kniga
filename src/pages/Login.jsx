@@ -6,7 +6,7 @@ import { AuthLayout } from '../components/AuthLayout';
 import { PasswordField, TextField } from '../components/Fields';
 
 export function Login() {
-  const { login } = useAuth();
+  const { login, devGuestLogin } = useAuth();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
@@ -20,6 +20,18 @@ export function Login() {
     try {
       await login(identifier.trim(), password, remember);
       // <GuestOnly> redirects to ?next= or home once the user is set.
+    } catch (err) {
+      setError(err instanceof ApiError ? err : new ApiError(0, 'Could not reach Kniga. Check your connection.'));
+      setBusy(false);
+    }
+  };
+
+  // DEV ONLY: skip the form and use the shared dummy guest account.
+  const guest = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      await devGuestLogin();
     } catch (err) {
       setError(err instanceof ApiError ? err : new ApiError(0, 'Could not reach Kniga. Check your connection.'));
       setBusy(false);
@@ -62,6 +74,11 @@ export function Login() {
         <button className="btn btn--primary btn--block" disabled={busy}>
           {busy ? 'Logging in…' : 'Log in'}
         </button>
+        {import.meta.env.DEV && (
+          <button type="button" className="btn btn--ghost btn--block" onClick={guest} disabled={busy}>
+            Continue as dev guest
+          </button>
+        )}
         <p className="auth-form__switch">
           New to Kniga? <Link to="/signup">Create an account</Link>
         </p>

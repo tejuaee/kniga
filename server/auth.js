@@ -42,6 +42,10 @@ export async function verifyPassword(password, stored) {
 // A real hash of a random password, used so failed lookups take as long as real checks.
 const DUMMY_HASH = hashPassword(randomBytes(12).toString('hex'));
 
+// Dummy account used by the dev-only guest login (see /dev-guest below).
+// Its password is a random hash, so it can't be logged into through the normal form.
+const DEV_GUEST = { username: 'dev_guest', email: 'dev_guest@kniga.local', bio: 'Developer guest account.' };
+
 // ---------- tokens
 const sha256 = (s) => createHash('sha256').update(s).digest('hex');
 const newToken = () => randomBytes(32).toString('base64url');
@@ -218,6 +222,26 @@ export function authRouter(db) {
       res.json({ user: toPublicUser(user) });
     }),
   );
+
+  // DEV ONLY — temporary guest mode: logs straight into a shared dummy account so developers can
+  // skip the login form. Never mounted in production (`npm start` sets NODE_ENV=production).
+  if (process.env.NODE_ENV !== 'production') {
+    r.post(
+      '/dev-guest',
+      h(async (_req, res) => {
+        let user = await db.get('SELECT * FROM users WHERE lower(username) = lower(?)', [DEV_GUEST.username]);
+        if (!user) {
+          user = await db.get(
+            `INSERT INTO users (username, email, password_hash, bio, email_verified_at)
+             VALUES (?, ?, ?, ?, ?) RETURNING *`,
+            [DEV_GUEST.username, DEV_GUEST.email, await DUMMY_HASH, DEV_GUEST.bio, now()],
+          );
+        }
+        await createSession(db, res, user.id, true);
+        res.json({ user: toPublicUser(user) });
+      }),
+    );
+  }
 
   r.post(
     '/logout',

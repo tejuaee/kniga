@@ -27,13 +27,18 @@ export function AuthProvider({ children }) {
     const { user } = await api('/auth/register', 'POST', { username, email, password });
     setUser(user);
   };
+  // DEV ONLY: sign in as the shared dummy guest account (server route exists only outside production).
+  const devGuestLogin = async () => {
+    const { user } = await api('/auth/dev-guest', 'POST');
+    setUser(user);
+  };
   const logout = async () => {
     await api('/auth/logout', 'POST');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, refresh }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading, login, register, devGuestLogin, logout, refresh }}>{children}</AuthContext.Provider>
   );
 }
 
