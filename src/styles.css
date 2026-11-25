@@ -25,7 +25,8 @@
   --shadow-soft: 0 1px 2px rgb(47 58 74 / 0.04), 0 4px 16px rgb(47 58 74 / 0.05);
   --shadow-card: 0 1px 2px rgb(47 58 74 / 0.05), 0 12px 32px -8px rgb(47 58 74 / 0.12);
 
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --title: 'Newsreader', Georgia, serif;
   --serif: 'Source Serif 4', Georgia, serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
@@ -58,7 +59,7 @@ img { display: block; max-width: 100%; }
 /* ---------- type */
 .eyebrow { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-ink); }
 .eyebrow::before { content: '— '; color: var(--accent); }
-.serif-title { margin: 0; font-family: var(--serif); font-weight: 700; color: var(--head); font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; }
+.serif-title { margin: 0; font-family: var(--title); font-weight: 700; color: var(--head); font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; }
 .serif-title--xl { font-size: 36px; line-height: 1.1; letter-spacing: -0.02em; }
 .serif-title--xxl { font-size: 44px; line-height: 1.05; letter-spacing: -0.025em; }
 .title-year { font-family: var(--sans); font-weight: 400; font-size: 0.6em; color: var(--muted); }
@@ -153,7 +154,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--line); box-shadow: var(--shadow-soft);
 }
 .featured__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
-.featured__title { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 26px; color: var(--head); }
+.featured__title { margin: 0; font-family: var(--title); font-weight: 600; font-size: 26px; color: var(--head); }
 .featured__arrows { display: flex; gap: 10px; }
 /* The wooden plank is a band behind the bottom edge of the 192px covers. */
 .shelf__books {
@@ -389,7 +390,7 @@ button.top4__empty:hover { border-color: var(--accent); color: var(--head); }
 .review:last-child { border-bottom: 0; }
 .review__cover { flex: none; }
 .review__body { min-width: 0; flex: 1; }
-.review__title { margin: 0; font-family: var(--serif); font-size: 19px; line-height: 1.25; }
+.review__title { margin: 0; font-family: var(--title); font-size: 19px; line-height: 1.25; }
 .review__title a { color: var(--head); text-decoration: none; }
 .review__title a:hover { color: var(--primary); }
 .review__line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
